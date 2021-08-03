@@ -1,0 +1,11 @@
+name: dp-apache-airflow
+channels:
+- default
+- conda-forge
+dependencies:
+- python=3.8
+- airflow
+- apache-airflow-providers-cncf-kubernetes
+- black
+- flake8
+- pre_commit
