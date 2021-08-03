@@ -3,7 +3,7 @@
 <br />
 <p align="center">
     <a href="https://github.com/najuzilu/DP-Airflow">
-        <img src="./images/logo.png" alt="Logo" width="300" height="200">
+        <img src="./images/logo.png" alt="Logo" width="400" height="200">
     </a>
     <h3 align="center">Data Pipelines with Airflow</h3>
 </p>
@@ -22,23 +22,27 @@ The source data resides in S3 and needs to be processed in Sparkify's data wareh
 
 ### Tools
 
-* python 3.8
-* airflow
+* Python 3.8
+* AWS
+* Apache Airflow
 
 ## Datasets
 
+For this project, you'll be working with two datasets. Here are the s3 links for each:
 
-## Add Airflow Connections
+* Log data: `s3://udacity-dend/log_data`
+* Song data: `s3://udacity-dend/song_data`
 
-Since there are multiple ways to set up and run Apache Airflow, we'll try the basic setup using a virtual environment and pip.
+## DAG Configuration/Structure
 
+![final_DAG](./images/final-dag.png)
 
 ## Getting Started
 
 Clone this repository
 
 ```bash
-git clone
+git clone https://github.com/najuzilu/DP-Airflow.git
 ```
 
 ### Prerequisites
