@@ -33,7 +33,17 @@ For this project, you'll be working with two datasets. Here are the s3 links for
 * Log data: `s3://udacity-dend/log_data`
 * Song data: `s3://udacity-dend/song_data`
 
-## DAG Configuration/Structure
+## DAG Configuration
+
+### Operators
+
+You will build four main operators that will stage the data, transform the data, and run checks on data quality. All the operators and tasks instances will run SQL statements against the Redshift database.
+
+* **Stage Operator**: loads any JSON formatted file from S3 to Amazon Redshift. It creates and runs a SQL COPY statement based on the parameters provided.
+* **Fact and Dimension Operators**: utilizes the SQL helper class to run data transformations.
+* **Data Quality Operator**: is used to run checks on the data itself.
+
+The task dependencies for the DAG are shown in the image below.
 
 ![final_DAG](./images/final-dag.png)
 
@@ -47,8 +57,19 @@ git clone https://github.com/najuzilu/DP-Airflow.git
 
 ### Prerequisites
 
+* Python 3.8
+* AWS
+* Apache Airflow
 
 ## Project Steps
+
+1. Use `dwh_example.cfg` to create and populate a `dwh.cfg` file with the AWS Access Key/ Secret Key fields and workstation IP address.
+2. Run `setup_redshift_cluster.sh` and `setup_redshift_conn.sh` to setup the redshift cluster with the appropriate configurations.
+3. Copy the last line printed during the execution of the previous step and run on the workstation to set the redshift cluster endpoint.
+4. Then, execute `setup_airflow_conn.sh` to create the Airflow connections to AWS and Redshift.
+5. Lastly, use Airflow's WebUI to run the pipeline.
+
+Once the project is completed, run `terminate_redshift_cluster.sh` to terminate the Redshift cluster.
 
 
 ## Authors
