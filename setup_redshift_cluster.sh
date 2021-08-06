@@ -17,6 +17,8 @@ DWH_DB_PASSWORD=$(awk -F "=" '/^\[DWH\]/{f=1} f==1&&/^DWH_DB_PASSWORD/{print $2;
 DWH_POLICY_ARN=$(awk -F "=" '/^\[DWH\]/{f=1} f==1&&/^DWH_POLICY_ARN/{print $2;exit}' "${CONFIG}")
 DWH_PORT=$(awk -F "=" '/^\[DWH\]/{f=1} f==1&&/^DWH_PORT/{print $2;exit}' "${CONFIG}")
 
+IP=$(awk -F "=" '/^\[WORKSTATION\]/{f=1} f==1&&/^IP/{print $2;exit}' "${CONFIG}")
+
 # Check to see if role already exists
 
 iam_role_exists=$(aws iam get-role --role-name $DWH_IAM_ROLE_NAME --query "Role.RoleName" --output text)
@@ -58,20 +60,3 @@ done
 
 echo -e "Update: Redshift cluster status is ${cluster_status}\n"
 sleep 15
-
-# add airflow connection -- aws
-echo "Creating aws_credentials connection with airflow..."
-airflow connections add 'aws_credentials' --conn-type 'Amazon Web Services' --conn-login $AWS_ACCESS_KEY_ID --conn-password $AWS_SECRET_ACCESS_KEY
-
-# retrieve redshift endpoint
-echo "Retrieving redshift endpoint..."
-redshift_endpoint=$(aws redshift describe-clusters --cluster-identifier $DWH_CLUSTER_IDENTIFIER --query "Clusters[*].Endpoint.Address | [0]" --output text)
-
-# add airflow connection -- redshift
-echo "Creating redshift connection with airflow..."
-airflow connections add 'redshift' --conn-type 'Postgres'  --conn-login $DWH_DB_USER --conn-password $DWH_DB_PASSWORD --conn-host $redshift_endpoint --conn-port $DWH_PORT --conn-schema $DWH_DB
-
-# # cluster_response=$(aws redshift delete-cluster --cluster-identifier $DWH_CLUSTER_IDENTIFIER --skip-final-cluster-snapshot)
-
-
-# # cluster_status=$(aws redshift describe-clusters --cluster-identifier $DWH_CLUSTER_IDENTIFIER --query "Clusters[*].ClusterStatus | [0]" --output text)
